@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Map Click Event</title>
+  <meta name="viewport" content="initial-scale=1.0">
+  <meta charset="utf-8">
+  <script src="https://apis.mappls.com/advancedmaps/api/ddc90fab5da1de3d53a53ba02d5fe529/map_sdk?v=3.0&layer=vector"></script>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <script>
+    var map;
+    map = new mappls.Map("map", {});
+    map.addListener("click", function (e) {
+  // Extract the specific data you need from the event object
+  const { lngLat } = e;
+
+  // Convert the extracted property to JSON
+  const lngLatJSON = JSON.stringify(lngLat);
+
+  console.log(lngLatJSON);
+    fetch('/click_listener', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: lngLatJSON,
+      })
+        .then(response => response.json())
+        .then(data => console.log(data));
+});
+  </script>
+
+  <style>
+    html,
+    body,
+    #map {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100vh;
+    }
+  </style>
+</body>
+
+</html>
